@@ -1,0 +1,59 @@
+{
+  "_comment": "DeepSpeed ZeRO-2 config, tuned for 2x RTX PRO 6000 (no NVLink => PCIe).",
+  "train_batch_size": "auto",      # resolved by trainer from grad_accum * world
+  "train_micro_batch_size_per_gpu": "auto",
+  "gradient_accumulation_steps": "auto",
+
+  "optimizer": {
+    "type": "AdamW",
+    "params": { "_comment": "torch AdamW compatible fields (betas/weight_decay)",
+      "lr": "auto", "beta1": 0.9, "beta2": 0.95,
+      "eps": 1e-8, "weight_decay": 0.01 }
+  },
+  "scheduler": {
+    "_comment": "warmup + cosine; trainer overrides lr/num via config. Use warmup_min_lr.",
+    "type": "WarmupLR",
+    "params": { "warmup_min_ratio": 0.001, "warmup_max_lr": "auto",
+      "warmup_num_steps": "auto", "total_num_steps": "auto" }
+  },
+
+  "bf16": {
+    "_comment": "Primary precision (Blackwell native). FP8 handled optionally by trainer flag.",
+    "enabled": true,
+    "loss_scale": 0,              # dynamic
+    "initial_scale_power": 32,
+    "min_loss_scale": 1.0
+  },
+
+  "zero_optimization": {
+    "_comment": "ZeRO-2: shard optimizer+grads across GPUs; no TP needed for small model.",
+    "stage": 2,
+    "allgather_partitions": true,
+    "reduce_scatter": true,
+    "overlap_comm": true,          # hide all-reduce latency behind compute
+    "contiguous_gradients": false,
+    "round_robin_gradients": true,
+
+    "_bucket_tuning": {
+      "allgather_bucket_size": 5e8,
+      "reduce_bucket_size": 5e8,
+      "reuse_fp16_allgather_buckets": true
+    }
+  },
+
+  "activation_checkpointing": {
+    "_comment": "block-level gradient checkpointing via DS (compute-for-memory).",
+    "partition_activations": false,     # disabled for ZeRO-2 correctness on custom arch
+    "cpu_checkpointing": false,
+    "number_checkpoints": null
+  },
+
+  "gradient_clipping": { "_comment": "applied in trainer via max_grad_norm too.",
+    ".": "" },
+
+  "communication_data_type": "bf16",
+  "steps_per_print": 100,
+
+  "wall_clock_breakdown": false,
+  "zero_allow_untested_optimizer": true
+}

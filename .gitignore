@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+build/
+
+# 模型权重 / 检查点
+checkpoint/
+models/checkpoints/
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# 分词器大文件
+tokenizer_qwen/
+tokenizer_bpe/
+
+# 大数据（训练语料不入库）
+data/raw/
+data/cache/
+dataset/raw/
+data/c4_expanded.txt
+data/chinese_c4/corpus.txt
+*.parquet
+*.bin.part
+
+# IDE / 系统
+.idea/
+.vscode/
+.DS_Store

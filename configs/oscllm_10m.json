@@ -1,0 +1,34 @@
+{
+  "model": {
+    "_comment": "~10.5M OSC-LLM (Phase0.5 scaled). vocab must match trained tokenizer.",
+    "d_model": 256,
+    "n_layer": 8,
+    "n_head": 4,
+    "vocab_size": 151936,
+    "max_position": 4096,
+    "target_firing": 0.3,
+    "fire_warmup_steps": 200,
+    "sf_aux_scale": 0.02,
+    "ltk_t_max": 4,
+    "ltk_dt": 0.01,
+    "cfra_lowpass_power": 1.5,
+    "dropout": 0.05
+  },
+  "_pretrain": {
+    "seq_len": 2048,
+    "micro_batch_train_tokens": 524288,
+    "global_batch_tokens": 1048576,
+    "grad_accum_steps": 4,
+    "lr": 0.0003,
+    "min_lr": 1e-05,
+    "warmup_steps": 500,
+    "total_steps": 25000,
+    "max_grad_norm": 2.0
+  },
+  "_data": {
+    "dataset_dir": "/home/dja/桌面/OSC-LLM/dataset",
+    "tokenizer_path": "/home/dja/桌面/OSC-LLM/tokenizer/bpe16384.json",
+    "train_ratio": 1.0,
+    "max_tokens_budget": 1100000000
+  }
+}

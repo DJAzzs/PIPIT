@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["oscllm*"]
+
+[project]
+name = "oscllm"
+version = "0.1.0-proto"
+description = "OSC-LLM: frequency-domain dynamic-depth language model (Phase 0.5-1)"
+requires-python = ">=3.10"
+
+[tool.setuptools.dynamic]
+# leave dependencies to runtime so we avoid hard pins
