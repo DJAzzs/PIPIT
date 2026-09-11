@@ -1,0 +1,17 @@
+OSCLLM 训练启动命令（分步执行）
+
+# 1. 设置环境变量（必须先执行这两行）
+export PYTHONPATH="/home/dja/桌面/OSC-LLM/src:$PYTHONPATH"
+export OMP_NUM_THREADS=8 NCCL_IB_DISABLE=1 NCCL_P2P_DISABLE=0
+
+# 2. 启动训练
+numactl --cpunodebind=0 --membind=0 deepspeed --num_gpus 2 train/train_deepspeed.py   --config configs/oscllm_1b.json   --bin dataset/corpus.bin
+
+参数说明：
+- Model: D=1600, L=30, Vocab=151936 → ~1.02B params
+- seq_len = 4096
+- global_batch_tokens = 1,048,576
+- grad_accum_steps = 4
+
+配置文件: configs/oscllm_1b.json (已验证参数量 1.02B)
+数据: dataset/corpus.bin 已就绪
