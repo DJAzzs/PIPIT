@@ -85,4 +85,4 @@ deepspeed --num_gpus 2 train/train_deepspeed.py \
 
 ## License
 
-MIT License · Copyright (c) 2025 DJAzzs
+Apache License 2.0 · Copyright (c) 2025 DJAzzs
